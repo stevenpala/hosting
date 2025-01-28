@@ -1,0 +1,93 @@
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Buscador Múltiple de Urbanizaciones</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 20px;
+    }
+    input {
+      width: 300px;
+      padding: 10px;
+      font-size: 16px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #4285F4;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #357AE8;
+    }
+    .urbanizacion-list {
+      margin-top: 20px;
+      max-width: 500px;
+      margin-left: auto;
+      margin-right: auto;
+      text-align: left;
+    }
+    .urbanizacion-list input {
+      display: block;
+      margin: 10px 0;
+    }
+  </style>
+</head>
+<body>
+  <h1>Buscador Múltiple de Urbanizaciones</h1>
+  <p>Ingresa los nombres de hasta 10 urbanizaciones para buscarlas juntas en Google Maps:</p>
+
+  <form id="searchForm">
+    <div class="urbanizacion-list" id="urbanizacionesContainer">
+      <input type="text" placeholder="Urbanización 1" required />
+      <input type="text" placeholder="Urbanización 2" />
+      <input type="text" placeholder="Urbanización 3" />
+      <input type="text" placeholder="Urbanización 4" />
+      <input type="text" placeholder="Urbanización 5" />
+      <input type="text" placeholder="Urbanización 6" />
+      <input type="text" placeholder="Urbanización 7" />
+      <input type="text" placeholder="Urbanización 8" />
+      <input type="text" placeholder="Urbanización 9" />
+      <input type="text" placeholder="Urbanización 10" />
+    </div>
+    <button type="submit">Buscar en Google Maps</button>
+  </form>
+
+  <script>
+    document.getElementById('searchForm').addEventListener('submit', function(event) {
+      event.preventDefault(); // Evita que el formulario recargue la página
+
+      // Captura todas las entradas de urbanizaciones
+      const inputs = document.querySelectorAll('#urbanizacionesContainer input');
+      const locations = [];
+
+      inputs.forEach(input => {
+        const value = input.value.trim();
+        if (value) {
+          locations.push(value);
+        }
+      });
+
+      if (locations.length > 0) {
+        // Genera la URL de Google Maps para múltiples ubicaciones
+        const query = locations.map(location => encodeURIComponent(location)).join('|');
+        const mapsUrl = `https://www.google.com/maps/dir/?api=1&destination=&travelmode=driving&waypoints=${query}`;
+
+        // Abre el mapa con las ubicaciones en una nueva pestaña
+        window.open(mapsUrl, '_blank');
+      } else {
+        alert('Por favor, ingresa al menos una urbanización.');
+      }
+    });
+  </script>
+</body>
+</html>
